@@ -6,7 +6,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 export default function Menu(props) {
 
     return (
-        <Navbar expand="lg" className="bg-body-tertiary">
+        <Navbar expand="lg" className="bg-body-tertiary mt-02 mb-02">
             <Container>
                 <Navbar.Brand href="#home">Menu</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -17,6 +17,7 @@ export default function Menu(props) {
                             <NavDropdown.Item href="#action/3.2">Fornecedores</NavDropdown.Item>
                             <NavDropdown.Item href="#action/3.3">Produtos</NavDropdown.Item>
                             <NavDropdown.Item href="#action/3.4">Categorias</NavDropdown.Item>
+                            <NavDropdown.Item href="#action/3.5">Usuários</NavDropdown.Item>
                         </NavDropdown>
                         <NavDropdown title="Operações" id="basic-nav-dropdown">
                             <NavDropdown.Item href="#action/3.1">Compra</NavDropdown.Item>
