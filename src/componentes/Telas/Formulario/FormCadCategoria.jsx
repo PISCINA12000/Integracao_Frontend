@@ -1,6 +1,6 @@
 import { InputGroup, Col, Button, Row, Container, Card, Form } from 'react-bootstrap';
 
-export default function CadastroCategoria(props) {
+export default function FormCadCategoria(props) {
     return (
         <Container>
             <Row className="vh-100 d-flex justify-content-center align-items-center">
