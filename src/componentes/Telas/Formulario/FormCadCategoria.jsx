@@ -1,4 +1,4 @@
-import { InputGroup, Col, Button, Row, Container, Card, Form } from 'react-bootstrap';
+import { Col, Button, Row, Container, Card, Form } from 'react-bootstrap';
 
 export default function FormCadCategoria(props) {
     return (

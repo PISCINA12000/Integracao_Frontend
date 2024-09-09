@@ -1,4 +1,4 @@
-import { InputGroup, Col, Button, Row, Container, Card, Form } from 'react-bootstrap';
+import { Col, Button, Row, Container, Card, Form } from 'react-bootstrap';
 
 export default function FormCadUsuario(props) {
     return (
@@ -45,12 +45,7 @@ export default function FormCadUsuario(props) {
                                         </Button>
                                     </div>
                                 </Form>
-                                <div className="mt-3">
-                                    <p className="mb-0 text-center">
-                                        Já possui uma conta?{' '}
-                                        <a href="{''}" className="text-primary fw-bold">Faça Login</a>
-                                    </p>
-                                </div>
+                                
                             </div>
                         </Card.Body>
                     </Card>

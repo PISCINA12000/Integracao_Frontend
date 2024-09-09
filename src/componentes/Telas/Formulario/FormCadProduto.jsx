@@ -1,4 +1,4 @@
-import { InputGroup, Col, Button, Row, Container, Card, Form } from 'react-bootstrap';
+import { Col, Button, Row, Container, Card, Form } from 'react-bootstrap';
 
 export default function FormCadProduto(props) {
     return (
@@ -46,25 +46,26 @@ export default function FormCadProduto(props) {
                                             <Form.Control type="date" placeholder="Validade" />
                                         </Form.Group>
                                     </Row>
-                                    <div className="d-grid">
-                                        <Button variant="primary" type="submit">
-                                            Cadastrar
-                                        </Button>
-                                    </div>
+                                    {//alterações feitas abaixo
+                                    }
+                                    <Row className='mt-2 mb-2'>
+                                        <Col md={1}>
+                                            <Button>Confirmar</Button>
+                                        </Col>
+                                        <Col md={{offset:1}}>
+                                            <Button onClick={()=>{
+                                                props.setExibirTabela(true);
+                                            }}>Voltar</Button>
+                                        </Col>
+                                    </Row>
                                 </Form>
-                                <div className="mt-3">
-                                    <p className="mb-0 text-center">
-                                        Já possui uma conta?{' '}
-                                        <a href="{''}" className="text-primary fw-bold">
-                                            Faça Login
-                                        </a>
-                                    </p>
-                                </div>
                             </div>
                         </Card.Body>
                     </Card>
                 </Col>
             </Row>
+
+            
         </Container>
     );
 }
