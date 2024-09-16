@@ -4,10 +4,10 @@ export default function TabelaProdutos(props) {
 
     function excluirProduto(){
         if(window.confirm("Deseja realmente excluir o produto " + produto.descricao)){
-            props.listaDeProdutos = props.listaDeProdutos.filter((item)=>{
-                                                                            return item.codigo != produto.codigo
-                
-                                                                        });
+            props.setListaDeProdutos(props.listaDeProdutos.filter(
+                (item)=>{                                                            
+                        return item.codigo != produto.codigo
+                   }));
         }
     }
 
