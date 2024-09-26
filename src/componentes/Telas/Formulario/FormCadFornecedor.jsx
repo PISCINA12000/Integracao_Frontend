@@ -1,77 +1,147 @@
-import { Col, Button, Row, Container, Card, Form } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
+import Col from 'react-bootstrap/Col';
+import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
+import { useState } from 'react';
 
 export default function FormCadFornecedor(props) {
+    const [fornecedor, setFornecedor] = useState(props.fornecedorSelecionado);
+    const [formValidado, setFormValidado] = useState(false);
+
+    function manipularSubmissao(evento){
+        const form = evento.currentTarget;
+        if (form.checkValidity()){
+            
+            if (!props.modoEdicao){
+                //cadastrar o fornecedor
+                props.setListaDeFornecedores([...props.listaDeFornecedores, fornecedor]);
+                //exibir tabela com o Fornecedor incluído
+                props.setExibirTabela(true);
+            }
+            else{
+                //editar o fornecedor
+                /*altera a ordem dos registros
+                props.setListaDeFornecedores([...props.listaDeFornecedores.filter(
+                    (item) => {
+                        return item.codigo !== fornecedor.codigo;
+                    }
+                ), fornecedor]);*/
+
+                //não altera a ordem dos registros
+                props.setListaDeFornecedores(props.listaDeFornecedores.map((item) => {
+                    if (item.codigo !== fornecedor.codigo)
+                        return item
+                    else
+                        return fornecedor
+                }));
+
+                //voltar para o modo de inclusão
+                props.setModoEdicao(false);
+                props.setFornecedorSelecionado({
+                    codigo:0,
+                    razaoSocial:"",
+                    cnpj:"",
+                    nomeFantasia:"",
+                    telefone:""
+                });
+                props.setExibirTabela(true);
+            }
+
+        }
+        else{
+            setFormValidado(true);
+        }
+        evento.preventDefault();
+        evento.stopPropagation();
+
+    }
+
+    function manipularMudanca(evento){
+        const elemento = evento.target.name;
+        const valor    = evento.target.value; 
+        setFornecedor({...fornecedor, [elemento]:valor});
+    }
+
     return (
-        <Container>
-            <Row className="vh-100 d-flex justify-content-center align-items-center">
-                <Col md={10} lg={8} xs={12}>
-                    <div className="border-3 border-primary border"></div>
-                    <Card className="shadow">
-                        <Card.Body>
-                            <div className="mb-3 mt-4">
-                                <h2 className="fw-bold text-uppercase mb-2">ACME</h2>
-                                <p className="mb-5">Cadastro de Fornecedores</p>
-                                <Form>
-                                    <Row className="mb-3">
-                                        <Form.Group as={Col} className="mb-3" controlId="formFullName">
-                                            <Form.Label className="text-center">Razão Social</Form.Label>
-                                            <Form.Control type="text" placeholder="Digite a Razão Social" />
-                                        </Form.Group>
-
-                                        <Form.Group as={Col} className="mb-3" controlId="formFullName">
-                                            <Form.Label className="text-center">CNPJ</Form.Label>
-                                            <Form.Control type="text" placeholder="Digite o CNJP" />
-                                        </Form.Group>
-                                    </Row>
-                                    <Row className="mb-3">
-                                        <Form.Group as={Col} className="mb-3" controlId="formFullName">
-                                            <Form.Label className="text-center">Nome Fantasia</Form.Label>
-                                            <Form.Control type="text" placeholder="Digite o nome Fantasia" />
-                                        </Form.Group>
-
-                                        <Form.Group as={Col} className="mb-3" controlId="formPhoneNumber">
-                                            <Form.Label>Telefone</Form.Label>
-                                            <Form.Control type="text" placeholder="Digite o telefone" />
-                                        </Form.Group>
-                                    </Row>
-                                    <Form.Group as={Col} className="mb-3" controlId="formUsername">
-                                        <Form.Label className="text-center">Endereço de e-mail</Form.Label>
-                                        <Form.Control type="email" placeholder="Digite o e-mail" />
-                                    </Form.Group>
-                                    <h2>Endereço</h2>
-                                    <Row className="mb-3">
-                                        <Form.Group as={Col} className="mb-3" controlId="formUsername">
-                                            <Form.Label className="text-center">Rua</Form.Label>
-                                            <Form.Control type="text" placeholder="Informe a Rua" />
-                                        </Form.Group>
-
-                                        <Form.Group as={Col} className="mb-3" controlId="formBasicPassword">
-                                            <Form.Label>Nº</Form.Label>
-                                            <Form.Control type="text" placeholder="Número" />
-                                        </Form.Group>
-                                    </Row>
-                                    <Row className="mb-3">
-                                        <Form.Group as={Col} className="mb-3" controlId="formUsername">
-                                            <Form.Label className="text-center">Cidade</Form.Label>
-                                            <Form.Control type="text" placeholder="Cidade" />
-                                        </Form.Group>
-
-                                        <Form.Group as={Col} className="mb-3" controlId="formBasicPassword">
-                                            <Form.Label>CEP</Form.Label>
-                                            <Form.Control type="text" placeholder="CEP" />
-                                        </Form.Group>
-                                    </Row>
-                                    <div className="d-grid">
-                                        <Button variant="primary" type="submit">
-                                            Cadastrar
-                                        </Button>
-                                    </div>
-                                </Form>
-                            </div>
-                        </Card.Body>
-                    </Card>
+        <Form noValidate validated={formValidado} onSubmit={manipularSubmissao}>
+            <Row className="mb-4">
+                <Form.Group as={Col} md="4">
+                    <Form.Label>Código</Form.Label>
+                    <Form.Control
+                        required
+                        type="text"
+                        id="codigo"
+                        name="codigo"
+                        value={fornecedor.codigo}
+                        disabled={props.modoEdicao}
+                        onChange={manipularMudanca}
+                    />
+                    <Form.Control.Feedback type='invalid'>Por favor, informe o código do fornecedor!</Form.Control.Feedback>
+                </Form.Group>
+            </Row>
+            <Row className="mb-4">
+                <Form.Group as={Col} md="12">
+                    <Form.Label>Razão Social</Form.Label>
+                    <Form.Control
+                        required
+                        type="text"
+                        id="razaoSocial"
+                        name="razaoSocial"
+                        value={fornecedor.razaoSocial}
+                        onChange={manipularMudanca}
+                    />
+                    <Form.Control.Feedback type="invalid">Por favor, informe a Razão social do fornecedor!</Form.Control.Feedback>
+                </Form.Group>
+            </Row>
+            <Row className="mb-4">
+                <Form.Group as={Col} md="12">
+                    <Form.Label>CNPJ</Form.Label>
+                    <Form.Control
+                        required
+                        type="text"
+                        id="cnpj"
+                        name="cnpj"
+                        value={fornecedor.cnpj}
+                        onChange={manipularMudanca}
+                    />
+                    <Form.Control.Feedback type="invalid">Por favor, informe a CNPJ do fornecedor!</Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group as={Col} md="12">
+                    <Form.Label>Nome Fantasia:</Form.Label>
+                    <Form.Control
+                        required
+                        type="text"
+                        id="nomeFantasia"
+                        name="nome"
+                        value={fornecedor.nomeFantasia}
+                        onChange={manipularMudanca}
+                    />
+                    <Form.Control.Feedback type="invalid">Por favor, informe Nome Fantasia do fornecedor!</Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group as={Col} md="12">
+                    <Form.Label>Telefone</Form.Label>
+                    <Form.Control
+                        required
+                        type="text"
+                        id="telefone"
+                        name="telefone"
+                        value={fornecedor.telefone}
+                        onChange={manipularMudanca}
+                    />
+                    <Form.Control.Feedback type="invalid">Por favor, informe Telefone do fornecedor!</Form.Control.Feedback>
+                </Form.Group>
+            </Row>
+            <Row className='mt-2 mb-2'>
+                <Col md={1}>
+                    <Button type="submit">{props.modoEdicao ? "Alterar":"Confirmar"}</Button>
+                </Col>
+                <Col md={{offset:1}}>
+                    <Button onClick={()=>{
+                        props.setExibirTabela(true);
+                    }}>Voltar</Button>
                 </Col>
             </Row>
-        </Container>
+        </Form>
+
     );
 }
