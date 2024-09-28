@@ -7,7 +7,7 @@ export default function Tela404(props){
     return(
         <Pagina>
             <Container>
-                <img src={imagem404}/>
+                <img src={imagem404} alt='Imagem erro 404'/>
                 <h1 className='text-center'>O recurso solicitado não existe</h1>
             </Container>
         </Pagina>
