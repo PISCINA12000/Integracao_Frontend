@@ -107,12 +107,12 @@ export default function FormCadFornecedor(props) {
                     <Form.Control.Feedback type="invalid">Por favor, informe a CNPJ do fornecedor!</Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group as={Col} md="12">
-                    <Form.Label>Nome Fantasia:</Form.Label>
+                    <Form.Label>Nome Fantasia</Form.Label>
                     <Form.Control
                         required
                         type="text"
                         id="nomeFantasia"
-                        name="nome"
+                        name="nomeFantasia"
                         value={fornecedor.nomeFantasia}
                         onChange={manipularMudanca}
                     />

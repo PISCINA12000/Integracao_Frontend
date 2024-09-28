@@ -5,7 +5,7 @@ import Row from 'react-bootstrap/Row';
 import { useState } from 'react';
 
 export default function FormCadCategoria(props) {
-    const [categoria, setCategoria] = useState(props.categoriaSelecionado);
+    const [categoria, setCategoria] = useState(props.categoriaSelecionada);
     const [formValidado, setFormValidado] = useState(false);
 
     function manipularSubmissao(evento) {
@@ -37,9 +37,9 @@ export default function FormCadCategoria(props) {
 
                 //voltar para o modo de inclusão
                 props.setModoEdicao(false);
-                props.setCategoriaSelecionado({
+                props.setCategoriaSelecionada({
                     codigo: 0,
-                    descricao: "",
+                    descricao: ""
                 });
                 props.setExibirTabela(true);
             }
