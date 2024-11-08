@@ -22,13 +22,13 @@ export default function FormCadProdutos(props) {
     }, []); // Para que o useEffect tenha o efeito de um didMount o segundo parâmetro deve ser um vetor VAZIO!
 
     function selecionarCategoria(evento) {
-        setProduto({...produto, categoria: { codigo: evento.currentTarget.value}});
+        setProduto({ ...produto, categoria: { codigo: evento.currentTarget.value } });
     }
 
-    function manipularSubmissao(evento){
+    function manipularSubmissao(evento) {
         const form = evento.currentTarget;
-        if (form.checkValidity()){
-            if (!props.modoEdicao){
+        if (form.checkValidity()) {
+            if (!props.modoEdicao) {
                 gravarProduto(produto).then((resultPromise) => {//retorna uma promessa com resultado
                     if (resultPromise.status) {//se for true gravou
                         props.setExibirTabela(true);
@@ -41,7 +41,7 @@ export default function FormCadProdutos(props) {
                 //props.setListaDeProdutos([...props.listaDeProdutos, produto]);
                 //exibir tabela com o produto incluído
             }
-            else{
+            else {
                 //editar o produto
                 /*altera a ordem dos registros
                 props.setListaDeProdutos([...props.listaDeProdutos.filter(
@@ -51,8 +51,8 @@ export default function FormCadProdutos(props) {
                 ), produto]);*/
 
                 //não altera a ordem dos registros
-                alterarProduto(produto).then((resultPromise)=>{
-                    if(resultPromise.status){
+                alterarProduto(produto).then((resultPromise) => {
+                    if (resultPromise.status) {
                         props.setModoEdicao(false);
                         console.log("Produto Alterado!");
                     }
@@ -69,18 +69,18 @@ export default function FormCadProdutos(props) {
             //voltar para o modo de inclusão
             props.setExibirTabela(true);
             props.setProdutoSelecionado({
-                codigo:0,
-                descricao:"",
-                precoCusto:0,
-                precoVenda:0,
-                qtdEstoque:0,
-                urlImagem:"",
-                dataValidade:"",
-                categoria:{}
+                codigo: 0,
+                descricao: "",
+                precoCusto: 0,
+                precoVenda: 0,
+                qtdEstoque: 0,
+                urlImagem: "",
+                dataValidade: "",
+                categoria: {}
             });
             setFormValidado(false);
         }
-        else{
+        else {
             setFormValidado(true);
         }
         evento.preventDefault();
@@ -88,10 +88,10 @@ export default function FormCadProdutos(props) {
 
     }
 
-    function manipularMudanca(evento){
+    function manipularMudanca(evento) {
         const elemento = evento.target.name;
-        const valor    = evento.target.value; 
-        setProduto({...produto, [elemento]:valor});
+        const valor = evento.target.value;
+        setProduto({ ...produto, [elemento]: valor });
     }
 
     return (
@@ -200,7 +200,7 @@ export default function FormCadProdutos(props) {
                     <Form.Label>Válido até:</Form.Label>
                     <Form.Control
                         required
-                        type="text"
+                        type="date"
                         id="dataValidade"
                         name="dataValidade"
                         value={produto.dataValidade}
@@ -208,19 +208,43 @@ export default function FormCadProdutos(props) {
                     />
                     <Form.Control.Feedback type="invalid">Por favor, informe a data de validade do produto!</Form.Control.Feedback>
                 </Form.Group>
+                <Form.Group as={Col} md={7} className="mb-3">
+                    <Form.Label>Categoria</Form.Label>
+                    <Form.Select id="categoria" name="categoria" onChange={selecionarCategoria}>
+                        <option value="" selected disabled>Selecione uma categoria</option>
+                        {
+                            // Criar em tempo de execução as categorias existentes no banco de dados
+                            categorias.map((categoria) => {
+                                return <option value={categoria.codigo}>
+                                    {categoria.descricao}
+                                </option>;
+                            })
+                        }
+                    </Form.Select>
+                </Form.Group>
+                <Form.Group as={Col} md={1} className="mt-4">
+                    <Form.Label>     </Form.Label>
+                    {
+                        !temCategorias ?
+                            <Spinner className="mt-2" animation="border" role="status" variant="primary">
+                                <span className="visually-hidden">Loading...</span>
+                            </Spinner> :
+                            ""
+                    }
+                </Form.Group>
             </Row>
             <Row className='mt-2 mb-2'>
                 <Col md={1}>
                     <Button type="submit">
                         {
-                            props.modoEdicao ? 
+                            props.modoEdicao ?
                                 "Alterar" :
                                 "Confirmar"
                         }
                     </Button>
                 </Col>
-                <Col md={{offset:1}}>
-                    <Button onClick={()=>{
+                <Col md={{ offset: 1 }}>
+                    <Button onClick={() => {
                         props.setExibirTabela(true);
                     }}>Voltar</Button>
                 </Col>
