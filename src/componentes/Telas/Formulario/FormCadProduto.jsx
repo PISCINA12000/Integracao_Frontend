@@ -1,4 +1,4 @@
-import { Button, Col, Form, InputGroup, Row } from 'react-bootstrap';
+import { Button, Col, Form, InputGroup, Row, Spinner } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
 import { consultarCategoria } from "../../../servicos/servicoCategoria.js"
 import { gravarProduto, alterarProduto } from "../../../servicos/servicoProduto.js";
@@ -225,11 +225,9 @@ export default function FormCadProdutos(props) {
                 <Form.Group as={Col} md={1} className="mt-4">
                     <Form.Label>     </Form.Label>
                     {
-                        !temCategorias ?
                             <Spinner className="mt-2" animation="border" role="status" variant="primary">
                                 <span className="visually-hidden">Loading...</span>
-                            </Spinner> :
-                            ""
+                            </Spinner>
                     }
                 </Form.Group>
             </Row>
