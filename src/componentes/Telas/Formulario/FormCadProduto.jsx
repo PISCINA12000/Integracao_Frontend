@@ -1,23 +1,45 @@
-import { Button } from 'react-bootstrap';
-import Col from 'react-bootstrap/Col';
-import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
-import Row from 'react-bootstrap/Row';
+import { Button, Col, Form, InputGroup, Row } from 'react-bootstrap';
 import { useState } from 'react';
+import { consultarCategoria } from "../../../servicos/servicoCategoria.js"
+import { gravarProduto, alterarProduto } from "../../../servicos/servicoProduto.js";
 
 export default function FormCadProdutos(props) {
     const [produto, setProduto] = useState(props.produtoSelecionado);
     const [formValidado, setFormValidado] = useState(false);
+    const [categorias, setCategorias] = useState([])
+
+    useEffect(() => {
+        consultarCategoria().then((resultPromise) => {
+            if (Array.isArray(resultPromise)) {
+                setCategorias(resultPromise);
+                console.log("Categorias Carregadas com Sucesso!");
+            }
+            else
+                console.log("Não foi possível carregar as categorias!");
+        }).catch((erro) => {
+            console.log("Não foi possível carregar as categorias!");
+        });
+    }, []); // Para que o useEffect tenha o efeito de um didMount o segundo parâmetro deve ser um vetor VAZIO!
+
+    function selecionarCategoria(evento) {
+        setProduto({...produto, categoria: { codigo: evento.currentTarget.value}});
+    }
 
     function manipularSubmissao(evento){
         const form = evento.currentTarget;
         if (form.checkValidity()){
-            
             if (!props.modoEdicao){
+                gravarProduto(produto).then((resultPromise) => {//retorna uma promessa com resultado
+                    if (resultPromise.status) {//se for true gravou
+                        props.setExibirTabela(true);
+                        console.log("Produto Cadastrado!");
+                    }
+                    else
+                        console.log(resultPromise.mensagem);
+                });
                 //cadastrar o produto
-                props.setListaDeProdutos([...props.listaDeProdutos, produto]);
+                //props.setListaDeProdutos([...props.listaDeProdutos, produto]);
                 //exibir tabela com o produto incluído
-                props.setExibirTabela(true);
             }
             else{
                 //editar o produto
@@ -29,27 +51,34 @@ export default function FormCadProdutos(props) {
                 ), produto]);*/
 
                 //não altera a ordem dos registros
-                props.setListaDeProdutos(props.listaDeProdutos.map((item) => {
+                alterarProduto(produto).then((resultPromise)=>{
+                    if(resultPromise.status){
+                        props.setModoEdicao(false);
+                        console.log("Produto Alterado!");
+                    }
+                    else
+                        console.log(resultPromise.mensagem);
+                })
+                /*props.setListaDeProdutos(props.listaDeProdutos.map((item) => {
                     if (item.codigo !== produto.codigo)
                         return item
                     else
                         return produto
-                }));
-
-                //voltar para o modo de inclusão
-                props.setModoEdicao(false);
-                props.setProdutoSelecionado({
-                    codigo:0,
-                    descricao:"",
-                    precoCusto:0,
-                    precoVenda:0,
-                    qtdEstoque:0,
-                    urlImagem:"",
-                    dataValidade:""
-                });
-                props.setExibirTabela(true);
+                }));*/
             }
-
+            //voltar para o modo de inclusão
+            props.setExibirTabela(true);
+            props.setProdutoSelecionado({
+                codigo:0,
+                descricao:"",
+                precoCusto:0,
+                precoVenda:0,
+                qtdEstoque:0,
+                urlImagem:"",
+                dataValidade:"",
+                categoria:{}
+            });
+            setFormValidado(false);
         }
         else{
             setFormValidado(true);
@@ -182,7 +211,13 @@ export default function FormCadProdutos(props) {
             </Row>
             <Row className='mt-2 mb-2'>
                 <Col md={1}>
-                    <Button type="submit">{props.modoEdicao ? "Alterar":"Confirmar"}</Button>
+                    <Button type="submit">
+                        {
+                            props.modoEdicao ? 
+                                "Alterar" :
+                                "Confirmar"
+                        }
+                    </Button>
                 </Col>
                 <Col md={{offset:1}}>
                     <Button onClick={()=>{

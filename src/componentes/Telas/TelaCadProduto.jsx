@@ -1,11 +1,13 @@
 import { Alert } from "react-bootstrap";
 import FormCadProdutos from "./Formulario/FormCadProduto";
 import Pagina from "../layouts/Pagina";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TabelaProdutos from "./Tabelas/TabelaProdutos";
 import { produtos } from "../../dados/mockProdutos";
+import { consultarProduto } from "../../servicos/servicoProduto.js";
 
 export default function TelaCadastroProduto(props) {
+    const [produtos, setProdutos] = useState([]);
     const [exibirTabela, setExibirTabela] = useState(true);
     const [listaDeProdutos, setListaDeProdutos] = useState(produtos);
     const [modoEdicao, setModoEdicao] = useState(false);
@@ -20,6 +22,11 @@ export default function TelaCadastroProduto(props) {
 
     });
 
+    useEffect(()=>{
+        consultarProduto().then((lista)=>{
+            setListaDeProdutos(lista)
+        })
+    },[])//lista vazia -> didMount
    
     return (
         <div>
@@ -33,17 +40,17 @@ export default function TelaCadastroProduto(props) {
                     exibirTabela ?
                         <TabelaProdutos listaDeProdutos={listaDeProdutos}
                                         setListaDeProdutos={setListaDeProdutos} 
-                                        setExibirTabela={setExibirTabela}
                                         setModoEdicao={setModoEdicao}
-                                        setProdutoSelecionado={setProdutoSelecionado} /> :
+                                        setProdutoSelecionado={setProdutoSelecionado}
+                                        setExibirTabela={setExibirTabela} /> :
+            
                         <FormCadProdutos listaDeProdutos={listaDeProdutos}
                                          setListaDeProdutos={setListaDeProdutos}
-                                         setExibirTabela={setExibirTabela}
-                                         produtoSelecionado={produtoSelecionado}
-                                         setProdutoSelecionado={setProdutoSelecionado}
                                          modoEdicao={modoEdicao}
                                          setModoEdicao={setModoEdicao}
-
+                                         produtoSelecionado={produtoSelecionado}
+                                         setProdutoSelecionado={setProdutoSelecionado}
+                                         setExibirTabela={setExibirTabela}
                                          />
                 }
             </Pagina>

@@ -22,18 +22,18 @@ export default function Menu(props) {
                             <NavDropdown.Item href="#" as={Link} to ="/entregador">Entregadores</NavDropdown.Item>
                         </NavDropdown>
                         <NavDropdown title="Operações" id="basic-nav-dropdown">
-                            <NavDropdown.Item href="#">Compra</NavDropdown.Item>
-                            <NavDropdown.Item href="#">Venda</NavDropdown.Item>
+                            <NavDropdown.Item href="#action/3.1">Compra</NavDropdown.Item>
+                            <NavDropdown.Item href="#action/3.2">Venda</NavDropdown.Item>
                         </NavDropdown>
                         <NavDropdown title="Relatórios" id="basic-nav-dropdown">
-                            <NavDropdown.Item href="#">Clientes</NavDropdown.Item>
-                            <NavDropdown.Item href="#">Fornecedores</NavDropdown.Item>
-                            <NavDropdown.Item href="#">Estoque</NavDropdown.Item>
-                            <NavDropdown.Item href="#">Vendas</NavDropdown.Item>
-                            <NavDropdown.Item href="#">Compras</NavDropdown.Item>
+                            <NavDropdown.Item href="#action/3.1">Clientes</NavDropdown.Item>
+                            <NavDropdown.Item href="#action/3.2">Fornecedores</NavDropdown.Item>
+                            <NavDropdown.Item href="#action/3.3">Estoque</NavDropdown.Item>
+                            <NavDropdown.Item href="#action/3.4">Vendas</NavDropdown.Item>
+                            <NavDropdown.Item href="#action/3.5">Compras</NavDropdown.Item>
                         </NavDropdown>
-                        <Nav.Link href="#">Sobre</Nav.Link>
-                        <Nav.Link href="#">Sair</Nav.Link>
+                        <Nav.Link href="#home">Sobre</Nav.Link>
+                        <Nav.Link href="#home">Sair</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
             </Container>
