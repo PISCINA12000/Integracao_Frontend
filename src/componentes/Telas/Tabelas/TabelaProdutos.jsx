@@ -12,9 +12,9 @@ export default function TabelaProdutos(props) {
         if(window.confirm("Deseja realmente excluir o produto " + produto.descricao)){
             excluirProduto(produto).then((result)=>{
                 if(result.status)
-                    toast.success("Produto Alterado!!");
+                    console.log("Produto Alterado!!");
                 else{
-                    toast.error(result.mensagem);
+                    console.log(result.mensagem);
                 }
             })
             //abordagem utilizando a sintaxe permitida da linguagem

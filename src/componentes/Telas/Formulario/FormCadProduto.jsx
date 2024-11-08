@@ -1,5 +1,5 @@
 import { Button, Col, Form, InputGroup, Row } from 'react-bootstrap';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { consultarCategoria } from "../../../servicos/servicoCategoria.js"
 import { gravarProduto, alterarProduto } from "../../../servicos/servicoProduto.js";
 
